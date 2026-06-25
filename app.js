@@ -72,7 +72,7 @@ let state = {
   listings: [],
   favorites: [],
   suggestions: [],
-  currentTab: "browse", // "browse" | "my-listings" | "favorites" | "suggestions"
+  currentTab: "browse", // "browse" | "how" | "my-listings" | "favorites" | "suggestions"
   selectedCategory: "all",
   searchQuery: "",
   collegeQuery: "",
@@ -211,12 +211,21 @@ function render() {
   const grid = document.getElementById("products-grid");
   const emptyState = document.getElementById("empty-state");
   const suggestionsLog = document.getElementById("suggestions-log");
+  const howPanel = document.getElementById("how-it-works-panel");
   const heroSection = document.querySelector(".hero-section");
   const filterControls = document.querySelector(".filter-controls");
 
   grid.innerHTML = "";
+  if (howPanel) howPanel.classList.add("hidden");
 
-  if (state.currentTab === "suggestions") {
+  if (state.currentTab === "how") {
+    grid.classList.add("hidden");
+    emptyState.classList.add("hidden");
+    if (suggestionsLog) suggestionsLog.classList.add("hidden");
+    if (filterControls) filterControls.classList.add("hidden");
+    if (heroSection) heroSection.classList.add("hidden");
+    if (howPanel) howPanel.classList.remove("hidden");
+  } else if (state.currentTab === "suggestions") {
     grid.classList.add("hidden");
     emptyState.classList.add("hidden");
     
@@ -241,7 +250,7 @@ function render() {
     
     // Show filter controls for catalog tabs
     if (filterControls) {
-      if (state.currentTab === "suggestions") {
+      if (state.currentTab === "suggestions" || state.currentTab === "how") {
         filterControls.classList.add("hidden");
       } else {
         filterControls.classList.remove("hidden");
@@ -390,6 +399,8 @@ function updateActiveUI() {
   const title = document.getElementById("section-title");
   if (state.currentTab === "browse") {
     title.innerText = "Explore Catalog";
+  } else if (state.currentTab === "how") {
+    title.innerText = "How It Works";
   } else if (state.currentTab === "my-listings") {
     title.innerText = "My Listings";
   } else if (state.currentTab === "favorites") {
@@ -402,6 +413,8 @@ function updateActiveUI() {
   document.querySelectorAll(".btn-tab").forEach(btn => btn.classList.remove("active"));
   if (state.currentTab === "browse") {
     document.getElementById("btn-browse-tab").classList.add("active");
+  } else if (state.currentTab === "how") {
+    document.getElementById("btn-how-tab").classList.add("active");
   } else if (state.currentTab === "my-listings") {
     document.getElementById("btn-my-listings-tab").classList.add("active");
   } else if (state.currentTab === "favorites") {
@@ -692,6 +705,10 @@ function setupEventListeners() {
   // Navigation Tabs
   document.getElementById("btn-browse-tab").addEventListener("click", () => {
     state.currentTab = "browse";
+    render();
+  });
+  document.getElementById("btn-how-tab").addEventListener("click", () => {
+    state.currentTab = "how";
     render();
   });
   document.getElementById("btn-my-listings-tab").addEventListener("click", () => {

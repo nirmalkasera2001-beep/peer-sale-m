@@ -630,6 +630,132 @@ body {
   margin-bottom: 20px;
 }
 
+/* How It Works / FAQ */
+.info-panel {
+  max-width: 980px;
+  margin: 20px auto 50px;
+}
+
+.info-hero {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 18px;
+  padding: 28px;
+  margin-bottom: 22px;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.18);
+}
+
+.info-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--primary-accent);
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 8px;
+}
+
+.info-hero h3 {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  margin-bottom: 10px;
+}
+
+.info-hero p {
+  color: var(--text-muted);
+  max-width: 760px;
+}
+
+.how-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 22px;
+}
+
+.how-step {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.how-step-icon {
+  width: 42px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  background: var(--primary-gradient);
+  color: var(--text-dark);
+  margin-bottom: 14px;
+}
+
+.how-step h4 {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  margin-bottom: 8px;
+}
+
+.how-step p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.faq-list details {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  padding: 0 18px;
+}
+
+.faq-list details[open] {
+  border-color: var(--primary-accent);
+  box-shadow: 0 12px 30px var(--primary-glow);
+}
+
+.faq-list summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 17px 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.faq-list summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-list summary::after {
+  content: '+';
+  color: var(--primary-accent);
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.faq-list details[open] summary::after {
+  content: '-';
+}
+
+.faq-list p {
+  color: var(--text-muted);
+  padding-bottom: 18px;
+  font-size: 0.92rem;
+}
+
 /* ==========================================
    Footer
    ========================================== */
@@ -1605,6 +1731,23 @@ input:focus, textarea:focus {
   .products-grid {
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
     gap: 15px;
+  }
+
+  .info-panel {
+    margin: 10px auto 35px;
+  }
+
+  .info-hero {
+    padding: 22px;
+    border-radius: 16px;
+  }
+
+  .info-hero h3 {
+    font-size: 1.55rem;
+  }
+
+  .how-steps {
+    grid-template-columns: 1fr;
   }
   
   /* Details Modal responsiveness */

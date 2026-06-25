@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>Hostel Stuff - Student Buy & Sell Marketplace</title>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1L29L0FWLT"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-1L29L0FWLT');
+  </script>
+  <!-- Google Fonts: Outfit for headings, Inter for body text -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <!-- FontAwesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css?v=10">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <a href="#" class="brand" id="brand-logo">
+        <div class="brand-icon">
+          <i class="fa-solid fa-graduation-cap"></i>
+        </div>
+        <span>Hostel Stuff</span>
+      </a>
+
+      <!-- Split Search Capsule (Item + College) -->
+      <div class="search-capsule">
+        <div class="search-input-wrapper">
+          <i class="fa-solid fa-magnifying-glass search-icon"></i>
+          <input type="text" id="search-input" placeholder="Search items...">
+        </div>
+        <div class="search-divider"></div>
+        <div class="search-college-wrapper">
+          <i class="fa-solid fa-location-dot location-icon"></i>
+          <input type="text" id="search-college" placeholder="By college...">
+        </div>
+      </div>
+
+      <div class="nav-actions">
+        <button class="btn btn-tab active" id="btn-browse-tab" title="Browse Catalog">
+          <i class="fa-solid fa-shop"></i> <span>Browse</span>
+        </button>
+        <button class="btn btn-tab" id="btn-suggestions-tab" title="View Website Suggestions">
+          <i class="fa-solid fa-lightbulb"></i> <span>Suggestions</span>
+        </button>
+        <button class="btn btn-tab" id="btn-my-listings-tab" title="View Your Listings">
+          <i class="fa-solid fa-list-check"></i> <span>My Listings</span>
+        </button>
+        <button class="btn btn-tab" id="btn-favorites-tab" title="View Favorites">
+          <i class="fa-solid fa-heart"></i> <span>Favorites</span>
+        </button>
+        <button class="btn btn-primary" id="btn-list-item" title="Sell an Item">
+          <i class="fa-solid fa-plus"></i> <span>List Item</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <header class="hero-section">
+    <div class="hero-content">
+      <h1>Campus Trading, <span class="text-gradient">Simplified.</span></h1>
+      <p>Buy and sell gear with fellow students directly. No middlemen, no shipping delays.</p>
+    </div>
+    
+    <!-- Category Filter Bar -->
+    <div class="category-bar-wrapper">
+      <div class="category-bar" id="category-bar">
+        <button class="category-btn active" data-category="all">
+          <i class="fa-solid fa-border-all"></i> All Categories
+        </button>
+        <button class="category-btn" data-category="electronics">
+          <i class="fa-solid fa-laptop"></i> Electronics
+        </button>
+        <button class="category-btn" data-category="furniture">
+          <i class="fa-solid fa-chair"></i> Furniture
+        </button>
+        <button class="category-btn" data-category="vehicles">
+          <i class="fa-solid fa-car"></i> Vehicles
+        </button>
+        <button class="category-btn" data-category="fashion">
+          <i class="fa-solid fa-shirt"></i> Fashion
+        </button>
+        <button class="category-btn" data-category="others">
+          <i class="fa-solid fa-box"></i> Others
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Catalog Area -->
+  <main class="main-container">
+    <div class="section-header">
+      <h2 id="section-title">Explore Catalog</h2>
+      <div class="filter-controls">
+        <label for="sort-select">Sort by:</label>
+        <select id="sort-select" class="form-select">
+          <option value="newest">Newest First</option>
+          <option value="price-low">Price: Low to High</option>
+          <option value="price-high">Price: High to Low</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Product Grid -->
+    <section class="products-grid" id="products-grid">
+      <!-- Cards injected dynamically -->
+    </section>
+
+    <!-- Suggestions Log List -->
+    <section class="suggestions-log hidden" id="suggestions-log">
+      <!-- Suggestions list will be injected here -->
+    </section>
+
+    <!-- Empty State -->
+    <div class="empty-state hidden" id="empty-state">
+      <div class="empty-icon">
+        <i class="fa-regular fa-folder-open"></i>
+      </div>
+      <h3>No listings found</h3>
+      <p>Try adjusting your search queries or check other categories.</p>
+      <button class="btn btn-secondary" id="btn-reset-filters">Reset Filters</button>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-container">
+      <p>&copy; 2026 Hostel Stuff. The Student-to-Student Campus Marketplace.</p>
+      <div class="footer-links">
+        <a href="#"><i class="fa-brands fa-github"></i></a>
+        <a href="#"><i class="fa-brands fa-twitter"></i></a>
+        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MODAL: List an Item Form -->
+  <div class="modal-overlay hidden" id="upload-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2>List an Item for Sale</h2>
+        <button class="close-btn" id="close-upload-modal"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form id="upload-form" class="modal-body">
+        <div class="form-grid">
+          <!-- Left Column -->
+          <div class="form-group-col">
+            <div class="form-group">
+              <label for="item-title">Listing Title <span class="required">*</span></label>
+              <input type="text" id="item-title" required placeholder="e.g. Study table, Noise cancelling headphones">
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="item-price">Price (₹) <span class="required">*</span></label>
+                <input type="number" id="item-price" min="0" required placeholder="Amount in ₹">
+              </div>
+              <div class="form-group">
+                <label for="item-category">Category <span class="required">*</span></label>
+                <select id="item-category" required class="form-select">
+                  <option value="" disabled selected>Select category</option>
+                  <option value="electronics">Electronics</option>
+                  <option value="furniture">Furniture</option>
+                  <option value="vehicles">Vehicles</option>
+                  <option value="fashion">Fashion</option>
+                  <option value="others">Others</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="item-condition">Condition <span class="required">*</span></label>
+                <select id="item-condition" required class="form-select">
+                  <option value="New">New / Sealed</option>
+                  <option value="Like New">Like New</option>
+                  <option value="Good">Good / Used</option>
+                  <option value="Fair">Fair / Worn</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="owner-pin">Owner PIN (4 Digits) <span class="required">*</span></label>
+                <input type="password" id="owner-pin" pattern="\d{4}" maxlength="4" required placeholder="e.g. 1234" title="4-digit PIN required to edit/delete this listing later">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="item-desc">Item Description <span class="required">*</span></label>
+              <textarea id="item-desc" rows="4" required placeholder="Describe usage duration, features, defects, pickup room..."></textarea>
+            </div>
+          </div>
+
+          <!-- Right Column (Seller Details & Image Upload) -->
+          <div class="form-group-col">
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="owner-name">Your Name <span class="required">*</span></label>
+                <input type="text" id="owner-name" required placeholder="e.g. John Doe">
+              </div>
+              <div class="form-group">
+                <label for="owner-college">College/University <span class="required">*</span></label>
+                <input type="text" id="owner-college" required placeholder="e.g. Stanford University">
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="owner-email">Email Address <span class="required">*</span></label>
+                <input type="email" id="owner-email" required placeholder="e.g. name@student.edu">
+              </div>
+              <div class="form-group">
+                <label for="owner-phone">Phone / WhatsApp <span class="required">*</span></label>
+                <input type="tel" id="owner-phone" required placeholder="e.g. +1 555-0199">
+              </div>
+            </div>
+
+            <!-- Image Uploader Section (Real Condition Upload) -->
+            <div class="form-group">
+              <label>Real Condition Image <span class="required">*</span></label>
+              <div class="image-upload-wrapper">
+                <input type="file" id="image-input" accept="image/*" class="hidden-input" style="display: none;">
+                <label for="image-input" class="dropzone-label" id="dropzone-label">
+                  <i class="fa-solid fa-cloud-arrow-up dropzone-icon"></i>
+                  <span class="dropzone-text">Click to upload or drag image here</span>
+                  <span class="dropzone-subtext">JPG, PNG (Recommended max 1MB)</span>
+                </label>
+                <div class="preview-container hidden" id="preview-container">
+                  <img id="image-preview" src="" alt="Real Condition Preview">
+                  <button type="button" class="btn-remove-preview" id="btn-remove-preview" title="Remove image">
+                    <i class="fa-solid fa-xmark"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="btn-cancel-upload">Cancel</button>
+          <button type="submit" class="btn btn-primary-gradient">Publish Listing</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: Product Detail View -->
+  <div class="modal-overlay hidden" id="detail-modal">
+    <div class="modal-card detail-modal-card">
+      <div class="modal-header">
+        <span class="detail-category-badge" id="detail-category-badge">Category</span>
+        <button class="close-btn" id="close-detail-modal"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="modal-body detail-modal-body">
+        <div class="detail-grid">
+          <!-- Left: Image Section (Shows Real Condition Photo) -->
+          <div class="detail-image-section">
+            <img src="" alt="Product Real Condition" id="detail-image">
+            <div class="detail-status-tags">
+              <span class="status-tag tag-condition" id="detail-condition">New</span>
+              <span class="status-tag tag-age" id="detail-age-tag">Listed Today</span>
+            </div>
+          </div>
+
+          <!-- Right: Details Section -->
+          <div class="detail-info-section">
+            <div class="detail-header-info">
+              <h1 id="detail-title">Product Title</h1>
+              <div class="detail-price-row">
+                <span class="detail-price" id="detail-price">₹0</span>
+                <button class="btn btn-favorite-toggle" id="detail-btn-fav" title="Add to Favorites">
+                  <i class="fa-regular fa-heart"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Description -->
+            <div class="detail-desc-container">
+              <h3>Description</h3>
+              <p id="detail-desc">Full product description goes here...</p>
+            </div>
+
+            <!-- Seller Profile card -->
+            <div class="seller-card">
+              <div class="seller-avatar">
+                <i class="fa-solid fa-user-tie"></i>
+              </div>
+              <div class="seller-details">
+                <span class="seller-label">Listed by</span>
+                <h4 id="detail-seller-name">Seller Name</h4>
+                <div class="seller-college">
+                  <i class="fa-solid fa-graduation-cap"></i> <span id="detail-seller-college">College Name</span>
+                </div>
+                <div class="seller-trust">
+                  <i class="fa-solid fa-circle-check"></i> Verified Student
+                </div>
+              </div>
+            </div>
+
+            <!-- Action Area: Call to Action for buyers, and Owner administration -->
+            <div class="detail-actions-panel">
+              <!-- Buyer actions -->
+              <div class="buyer-actions" id="buyer-actions">
+                <button class="btn btn-primary-gradient w-100" id="btn-contact-seller">
+                  <i class="fa-solid fa-message"></i> Contact Owner
+                </button>
+                <div class="buyer-alternative-contact">
+                  <a href="" class="contact-link" id="link-email-seller" target="_blank">
+                    <i class="fa-regular fa-envelope"></i> Email Seller
+                  </a>
+                  <a href="" class="contact-link" id="link-phone-seller">
+                    <i class="fa-solid fa-phone"></i> Call / WhatsApp
+                  </a>
+                </div>
+                <!-- Report as Sold -->
+                <button class="btn btn-flag" id="btn-report-sold" title="Report this item as sold if the seller told you so">
+                  <i class="fa-solid fa-flag"></i> Report as Already Sold
+                </button>
+              </div>
+
+              <!-- Owner management operations (PIN authenticated) -->
+              <div class="owner-actions" id="owner-actions">
+                <div class="divider"><span>Owner Controls</span></div>
+                <div class="owner-buttons-row">
+                  <button class="btn btn-success-outline" id="btn-owner-mark-sold">
+                    <i class="fa-solid fa-circle-check"></i> Mark as Sold
+                  </button>
+                  <button class="btn btn-danger" id="btn-owner-delete">
+                    <i class="fa-solid fa-trash-can"></i> Delete Listing
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INTERACTIVE MOCK CHAT OVERLAY -->
+  <div class="chat-overlay hidden" id="chat-overlay">
+    <div class="chat-window">
+      <div class="chat-header">
+        <div class="chat-seller-info">
+          <div class="chat-avatar">
+            <i class="fa-solid fa-user"></i>
+          </div>
+          <div>
+            <h4 id="chat-seller-title">John Doe</h4>
+            <span class="chat-status-text">Online • Responds in minutes</span>
+          </div>
+        </div>
+        <button class="chat-close-btn" id="close-chat"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+
+      <div class="chat-body" id="chat-body">
+        <!-- Interactive messages injected here -->
+        <div class="message-system">
+          <span>Inquiry about: <strong id="chat-product-name">iPhone 13</strong></span>
+        </div>
+        <div class="message message-received">
+          <div class="message-text">Hello! Is this product still available?</div>
+          <div class="message-time">09:50 AM</div>
+        </div>
+      </div>
+
+      <div class="chat-footer">
+        <input type="text" id="chat-input" placeholder="Type a message to the seller...">
+        <button class="btn btn-primary" id="btn-send-message"><i class="fa-solid fa-paper-plane"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- VERIFICATION PIN PROMPT MODAL -->
+  <div class="modal-overlay hidden" id="pin-prompt-modal" style="z-index: 1100;">
+    <div class="modal-card pin-modal-card">
+      <div class="modal-header">
+        <h3>Verify Ownership</h3>
+        <button class="close-btn" id="close-pin-modal"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body">
+        <p id="pin-prompt-text">Please enter the 4-digit Owner PIN you created when listing this item.</p>
+        <div class="form-group pin-input-group">
+          <input type="password" id="pin-input" pattern="\d{4}" maxlength="4" placeholder="••••" required autofocus>
+          <span class="error-text hidden" id="pin-error-message">Invalid PIN. Please try again.</span>
+        </div>
+        <div style="text-align: right; margin-top: -10px; margin-bottom: 15px;">
+          <a href="#" id="btn-forgot-pin" style="color: var(--primary-accent); font-size: 0.8rem; text-decoration: none; font-weight: 600;">Forgot PIN?</a>
+        </div>
+        <div class="modal-footer" style="padding-bottom: 0;">
+          <button class="btn btn-secondary" id="btn-cancel-pin">Cancel</button>
+          <button class="btn btn-primary" id="btn-submit-pin">Confirm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: Suggest Website Improvements -->
+  <div class="modal-overlay hidden" id="feedback-modal">
+    <div class="modal-card pin-modal-card" style="max-width: 480px;">
+      <div class="modal-header">
+        <h2>Suggest Website Improvements</h2>
+        <button class="close-btn" id="close-feedback-modal"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form id="feedback-form" class="modal-body">
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">Help us make Hostel Stuff better! Submit your suggestions, feature requests, or bug reports.</p>
+        
+        <div class="form-group">
+          <label for="feedback-title">Title / Idea Summary <span class="required">*</span></label>
+          <input type="text" id="feedback-title" required placeholder="e.g. Add dark/light mode toggle">
+        </div>
+        
+        <div class="form-group" style="margin-top: 15px;">
+          <label for="feedback-type">Type of Improvement <span class="required">*</span></label>
+          <select id="feedback-type" required class="form-select" style="width: 100%;">
+            <option value="feature">New Feature Request</option>
+            <option value="design">Design / UI / UX Suggestion</option>
+            <option value="bug">Bug Report</option>
+            <option value="other">Other Suggestion</option>
+          </select>
+        </div>
+
+        <div class="form-group" style="margin-top: 15px;">
+          <label for="feedback-desc">Suggestion Details <span class="required">*</span></label>
+          <textarea id="feedback-desc" rows="4" required placeholder="Describe your suggestion in detail..."></textarea>
+        </div>
+
+        <div class="form-group" style="margin-top: 15px;">
+          <label for="feedback-author">Your Name (Optional)</label>
+          <input type="text" id="feedback-author" placeholder="e.g. Alex, Room 402">
+        </div>
+
+        <div class="modal-footer" style="padding-bottom: 0; margin-top: 20px;">
+          <button type="button" class="btn btn-secondary" id="btn-cancel-feedback">Cancel</button>
+          <button type="submit" class="btn btn-primary-gradient">Submit Suggestion</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- FLOATING FEEDBACK BUTTON -->
+  <button class="floating-feedback-btn" id="btn-open-feedback" title="Suggest website improvements">
+    <i class="fa-solid fa-lightbulb"></i>
+    <span>Suggest Improvements</span>
+  </button>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Firebase App & Database Compat SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+
+  <!-- Javascript -->
+  <script src="app.js?v=3"></script>
+</body>
+</html>

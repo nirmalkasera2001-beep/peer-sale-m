@@ -34,6 +34,8 @@ try {
   if (checkFirebaseConfigured()) {
     firebase.initializeApp(firebaseConfig);
     db = firebase.database();
+    const auth = firebase.auth();
+    const provider = new firebase.auth.GoogleAuthProvider();
     isFirebaseActive = true;
     console.log("Firebase Realtime Database initialized successfully!");
   } else {
@@ -228,17 +230,17 @@ function render() {
   } else if (state.currentTab === "suggestions") {
     grid.classList.add("hidden");
     emptyState.classList.add("hidden");
-    
+
     if (filterControls) filterControls.classList.add("hidden");
     if (heroSection) heroSection.classList.add("hidden");
-    
+
     if (suggestionsLog) {
       suggestionsLog.classList.remove("hidden");
       renderSuggestions();
     }
   } else {
     if (suggestionsLog) suggestionsLog.classList.add("hidden");
-    
+
     // Only show the hero section on the "browse" tab
     if (heroSection) {
       if (state.currentTab === "browse") {
@@ -247,7 +249,7 @@ function render() {
         heroSection.classList.add("hidden");
       }
     }
-    
+
     // Show filter controls for catalog tabs
     if (filterControls) {
       if (state.currentTab === "suggestions" || state.currentTab === "how") {
@@ -1116,6 +1118,18 @@ function renderSuggestions() {
     container.appendChild(card);
   });
 }
+// ================= GOOGLE LOGIN =================
+
+const loginBtn = document.getElementById("btn-google-login");
+
+loginBtn.addEventListener("click", async () => {
+  try {
+    await auth.signInWithPopup(provider);
+  } catch (error) {
+    console.error(error);
+    alert(error.message);
+  }
+});
 
 // Start Engine on load
 document.addEventListener("DOMContentLoaded", init);

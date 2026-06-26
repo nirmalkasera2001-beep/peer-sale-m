@@ -29,14 +29,10 @@ function checkFirebaseConfigured() {
     firebaseConfig.databaseURL &&
     firebaseConfig.databaseURL !== "https://YOUR_PROJECT-default-rtdb.firebaseio.com";
 }
-let auth;
-let provider;
 try {
   if (checkFirebaseConfigured()) {
     firebase.initializeApp(firebaseConfig);
     db = firebase.database();
-    auth = firebase.auth();
-    provider = new firebase.auth.GoogleAuthProvider();
     isFirebaseActive = true;
     console.log("Firebase Realtime Database initialized successfully!");
   } else {
@@ -1122,15 +1118,5 @@ function renderSuggestions() {
 // ================= GOOGLE LOGIN =================
 
 const loginBtn = document.getElementById("btn-google-login");
-
-loginBtn.addEventListener("click", async () => {
-  try {
-    await auth.signInWithPopup(provider);
-  } catch (error) {
-    console.error(error);
-    alert(error.message);
-  }
-});
-
 // Start Engine on load
 document.addEventListener("DOMContentLoaded", init);

@@ -29,13 +29,14 @@ function checkFirebaseConfigured() {
     firebaseConfig.databaseURL &&
     firebaseConfig.databaseURL !== "https://YOUR_PROJECT-default-rtdb.firebaseio.com";
 }
-
+let auth;
+let provider;
 try {
   if (checkFirebaseConfigured()) {
     firebase.initializeApp(firebaseConfig);
     db = firebase.database();
-    const auth = firebase.auth();
-    const provider = new firebase.auth.GoogleAuthProvider();
+    auth = firebase.auth();
+    provider = new firebase.auth.GoogleAuthProvider();
     isFirebaseActive = true;
     console.log("Firebase Realtime Database initialized successfully!");
   } else {

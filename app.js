@@ -445,7 +445,31 @@ function updateActiveUI() {
     }
   });
 }
+// ==========================================
+// Google Authentication
+// ==========================================
+function signInWithGoogle() {
+  const provider = new firebase.auth.GoogleAuthProvider();
 
+  auth.signInWithPopup(provider)
+    .then((result) => {
+      currentUser = result.user;
+      showToast(`Welcome ${currentUser.displayName}!`, "success");
+    })
+    .catch((error) => {
+      console.error(error);
+      showToast("Google Sign-In failed.", "danger");
+    });
+}
+auth.onAuthStateChanged((user) => {
+  if (user) {
+    currentUser = user;
+    console.log("Logged in as:", user.displayName);
+  } else {
+    currentUser = null;
+    console.log("User signed out");
+  }
+});
 // ==========================================
 // Business Operations
 // ==========================================
@@ -823,6 +847,14 @@ function setupEventListeners() {
 
   // Form Open Trigger
   document.getElementById("btn-list-item").addEventListener("click", () => {
+
+    // User not logged in
+    if (!currentUser) {
+      signInWithGoogle();
+      return;
+    }
+
+    // User logged in
     document.getElementById("upload-form").reset();
     resetImageUploader();
     openModal("upload-modal");

@@ -22,7 +22,9 @@ const firebaseConfig = {
 
 let db = null;
 let isFirebaseActive = false;
-
+// Firebase Authentication
+let auth = null;
+let currentUser = null;
 function checkFirebaseConfigured() {
   return firebaseConfig.apiKey &&
     firebaseConfig.apiKey !== "YOUR_API_KEY" &&
@@ -34,6 +36,7 @@ try {
   if (checkFirebaseConfigured()) {
     firebase.initializeApp(firebaseConfig);
     db = firebase.database();
+    auth = firebase.auth()
     isFirebaseActive = true;
     console.log("Firebase Realtime Database initialized successfully!");
   } else {
@@ -87,6 +90,16 @@ let state = {
 // Initialization
 // ==========================================
 function init() {
+  // Configure session persistence
+  if (isFirebaseActive) {
+    auth.setPersistence(firebase.auth.Auth.Persistence.SESSION)
+      .then(() => {
+        console.log("Session persistence enabled.");
+      })
+      .catch((error) => {
+        console.error("Persistence error:", error);
+      });
+  }
   // Load favorites (favorites are stored locally per device)
   const storedFavs = localStorage.getItem(FAVORITES_KEY);
   if (storedFavs) {
